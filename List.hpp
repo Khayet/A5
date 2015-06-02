@@ -44,7 +44,12 @@ public:
   bool empty() const { return m_size == 0; }
   std::size_t size() const {return m_size; };
 
-  void push_front(T const&); //TODO
+  void push_front(T const& v) {
+    ++m_size; 
+    ListNode<T>* ln = new ListNode<T>{v, nullptr, m_first};
+    //m_first->m_prev = ;
+    //m_first = ln;
+  };
 
 private:
   std::size_t m_size;
