@@ -21,7 +21,7 @@ struct ListNode
 template <typename T>
 struct ListIterator
 {
-	friend class List<T>;
+  friend class List<T>;
 //not implemented yet
 private:
   ListNode<T>* m_node;
@@ -40,7 +40,12 @@ template <typename T>
 class List
 {
 public:
-//not implemented yet
+  List() : m_size{0}, m_first{nullptr}, m_last{nullptr} {}
+  bool empty() const { return m_size == 0; }
+  std::size_t size() const {return m_size; };
+
+  void push_front(T const&); //TODO
+
 private:
   std::size_t m_size;
   ListNode<T>* m_first;
