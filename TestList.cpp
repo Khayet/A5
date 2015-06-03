@@ -15,6 +15,7 @@ TEST_CASE("aufgabe1", "[list]") {
 
 
 TEST_CASE("aufgabe2", "[list]") {
+
   List<int> l1;
 
   l1.push_back(222);
@@ -31,19 +32,20 @@ TEST_CASE("aufgabe2", "[list]") {
 
   l1.push_back(341);
   REQUIRE(l1.back() == 341);
+
 } 
 
-TEST_CASE("aufgabe3", "[list]") {
-  List<int> l1;
+TEST_CASE("should be empty after clearing", "[clear]") {
+  List<int> list;
 
-  l1.push_front(23);
-  l1.push_front(23);
-  l1.push_front(23);
-  l1.push_front(23);
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
 
-  l1.clear();
+  list.clear();
 
-  REQUIRE(l1.empty());
+  REQUIRE(list.empty());
 }
 
 int main(int argc, char* argv[]) {
