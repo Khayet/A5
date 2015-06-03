@@ -98,6 +98,12 @@ public:
     return (m_last->m_value);
   }
 
+  void clear() {
+    while (!empty()) {
+      pop_front();
+    }
+  }
+
 private:
   std::size_t m_size;
   ListNode<T>* m_first;
