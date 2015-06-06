@@ -67,7 +67,7 @@ class List
 {
 public:
   List() : m_size{0}, m_first{nullptr}, m_last{nullptr} {}
-  //~List() { clear(); }
+  ~List() { clear(); }
 
   bool empty() const { return m_size == 0; }
   std::size_t size() const {return m_size; };
@@ -76,19 +76,20 @@ public:
     ListNode<T>* ln = new ListNode<T>{v, nullptr, m_first};
     if (m_first != nullptr) { m_first->m_prev = ln; }
     m_first = ln;
+    if (m_last == nullptr) m_last = ln;
     ++m_size;
   };
 
   void push_back(T const& v) {   
     ListNode<T>* ln = new ListNode<T>{v, m_last, nullptr};
-    if (m_last != nullptr) { m_last->m_prev = ln; }
+    if (m_last != nullptr) { m_last->m_next = ln; }
     m_last = ln;
+    if (m_first == nullptr) m_first = ln;
     ++m_size;
   }
 
   void pop_front() {
-
-    if (!empty()) {
+    if (m_first != nullptr) {
 
       if (m_first->m_next != nullptr) { //first != last elem      
         ListNode<T>* newFirst = m_first->m_next; 
@@ -106,7 +107,7 @@ public:
 
   void pop_back() {
 
-    if (!empty()) {
+    if (m_last != nullptr) {
 
       if (m_last->m_prev != nullptr) {
         ListNode<T>* newLast = m_last->m_prev;
@@ -123,11 +124,11 @@ public:
   }
 
   T& front() const {
-    return (m_first->m_value); 
+    if (m_first != nullptr) { return (m_first->m_value); } 
   }
 
   T& back() const {
-    return (m_last->m_value);
+    if (m_last != nullptr) { return (m_last->m_value); }
   }
 
   void clear() {
