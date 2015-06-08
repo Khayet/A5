@@ -18,30 +18,20 @@ TEST_CASE("aufgabe2", "[list]") {
   List<int> l1;
 
   l1.push_back(222);
-  std::cout << "back(): " << l1.back() << "\n"; 
   l1.push_front(82);
   l1.push_front(33);
-
 
   REQUIRE(l1.size() == 3);
 
   l1.pop_front();
-
-  std::cout << "size(): " << l1.size() << " ,back(): " << l1.back() << "\n"; 
-
   l1.pop_back();
-  std::cout << "size(): " << l1.size() << " ,back(): " << l1.back() << "\n"; 
 
   REQUIRE(l1.size() == 1);
   REQUIRE(l1.front() == 82);
 
-  std::cout << "back(): " << l1.back() << "\n";
   l1.push_back(341); 
-  std::cout << "line 39 " << l1.size() << "\n";
 
-  REQUIRE(l1.back() == 341); //culprit
-  std::cout << "Test case aufgabe2 finished" << std::endl;
-
+  REQUIRE(l1.back() == 341);
 } 
 
 
@@ -60,4 +50,9 @@ TEST_CASE("should be empty after clearing", "[clear]") {
 
 int main(int argc, char* argv[]) {
   return Catch::Session().run(argc, argv);
+}
+
+TEST_CASE("iterator", "[list]") {
+  List<int> list;
+  ListIterator<int> it();
 }
