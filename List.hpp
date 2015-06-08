@@ -22,6 +22,7 @@ struct ListNode
 template <typename T>
 struct ListIterator
 {
+public:
   typedef ListIterator<T> Self;
   typedef ListNode<T> Node;
   typedef T value_type;
@@ -47,8 +48,8 @@ struct ListIterator
     ++(*this);
     return temp;
   } //~
-  bool operator==(const Self& x) const { return (m_node == x); }
-  bool operator!=(const Self& x) const { return (m_node != x); }
+  bool operator==(const Self& x) const { return (m_node == x.m_node); }
+  bool operator!=(const Self& x) const { return (m_node != x.m_node); }
   Self next() const
   {
     if (m_node)
@@ -66,7 +67,42 @@ template <typename T>
 struct ListConstIterator
 {
 public:
-//not implemented yet
+/*
+  typedef ListConstIterator<T> Self;
+  typedef ListNode<T> Node;
+  typedef T value_type;
+  typedef T* pointer;
+  typedef T& reference;
+  typedef ptrdiff_t difference_type;
+  typedef std::forward_iterator_tag iterator_category;
+
+  friend class List<T>;
+
+  ListIterator() : m_node(nullptr) {}
+  ListIterator(ListNode<T>* n) : m_node(n) {}
+  reference const& operator*() const { return m_node->m_value; }
+  pointer const& operator->() const { return &(m_node->m_value); }
+  Self& operator++() { 
+    if (m_node != nullptr) {
+      m_node = m_node->m_next;
+    }
+    return *this;
+  }
+  Self operator++(int) { 
+    ListIterator temp{*this}; 
+    ++(*this);
+    return temp;
+  } //~
+  bool operator==(const Self& x) const { return (m_node == x.m_node); }
+  bool operator!=(const Self& x) const { return (m_node != x.m_node); }
+  Self next() const
+  {
+    if (m_node)
+      return ListIterator(m_node->m_next);
+    else
+      return ListIterator(nullptr);
+  }
+*/
 private:
   ListNode<T>* m_node; 
 };
@@ -145,10 +181,31 @@ public:
     }
   }
 
+  ListIterator<T> begin() {
+    return ListIterator<T>{m_first};
+  }
+
+  ListIterator<T> end() {
+    return ListIterator<T>();
+  }
+
 private:
   std::size_t m_size;
   ListNode<T>* m_first;
   ListNode<T>* m_last;
 };
 
+/* here be dragons
+template<typename T>
+bool operator==(List<T> const& xs, List<T> const& ys) {
+  auto it1 = xs.begin();
+  auto it2 = ys.begin();
+
+  while(it1 != xs.end()) {
+    if (*it1 != *it2) return false;
+  }
+
+  return true;
+}
+*/
 #endif // #define BUW_LIST_HPP

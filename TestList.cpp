@@ -48,11 +48,43 @@ TEST_CASE("should be empty after clearing", "[clear]") {
   REQUIRE(list.empty());
 }
 
-int main(int argc, char* argv[]) {
-  return Catch::Session().run(argc, argv);
+
+
+TEST_CASE("should be an empty range after default construction", 
+  "[begin_end]") {
+  List<int> list;
+  auto b = list.begin();
+  auto e = list.end();
+  REQUIRE( b == e );
 }
 
-TEST_CASE("iterator", "[list]") {
+TEST_CASE("provide access to the first element with begin", "[begin]") {
   List<int> list;
-  ListIterator<int> it();
+  list.push_front(42);
+  REQUIRE(42 == *list.begin());
+}
+
+TEST_CASE("aufgabe5", "[iterator]") {
+  List<int> list;
+  REQUIRE(list.end() == ListIterator<int>{});
+  REQUIRE(list.begin() == ListIterator<int>{});
+}
+
+TEST_CASE("aufgabe6", "[list_comparison]") {
+/*
+  List<int> l1;
+  List<int> l2;
+
+  l1.push_front(42);
+  l2.push_front(42);
+
+  l1.push_back(72);
+  l2.push_back(72);
+
+  REQUIRE(l1 == l2);
+*/
+}
+
+int main(int argc, char* argv[]) {
+  return Catch::Session().run(argc, argv);
 }
