@@ -49,7 +49,6 @@ TEST_CASE("should be empty after clearing", "[clear]") {
 }
 
 
-
 TEST_CASE("should be an empty range after default construction", 
   "[begin_end]") {
   List<int> list;
@@ -71,7 +70,7 @@ TEST_CASE("aufgabe5", "[iterator]") {
 }
 
 TEST_CASE("aufgabe6", "[list_comparison]") {
-/*
+
   List<int> l1;
   List<int> l2;
 
@@ -81,8 +80,13 @@ TEST_CASE("aufgabe6", "[list_comparison]") {
   l1.push_back(72);
   l2.push_back(72);
 
+  for (auto i : l1) 
+    std::cout << i << "\n"; 
+
+  for (auto i : l2)
+    std::cout << i << "\n";
+
   REQUIRE(l1 == l2);
-*/
 }
 
 int main(int argc, char* argv[]) {

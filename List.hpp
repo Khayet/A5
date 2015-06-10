@@ -43,11 +43,13 @@ public:
     }
     return *this;
   }
+
   Self operator++(int) { 
     ListIterator temp{*this}; 
     ++(*this);
     return temp;
-  } //~
+  }
+
   bool operator==(const Self& x) const { return (m_node == x.m_node); }
   bool operator!=(const Self& x) const { return (m_node != x.m_node); }
   Self next() const
@@ -63,49 +65,52 @@ private:
   ListNode<T>* m_node;
 };
 
+
 template <typename T>
 struct ListConstIterator
 {
-public:
-/*
   typedef ListConstIterator<T> Self;
   typedef ListNode<T> Node;
   typedef T value_type;
   typedef T* pointer;
-  typedef T& reference;
+  typedef T const& reference;
   typedef ptrdiff_t difference_type;
   typedef std::forward_iterator_tag iterator_category;
 
   friend class List<T>;
 
-  ListIterator() : m_node(nullptr) {}
-  ListIterator(ListNode<T>* n) : m_node(n) {}
-  reference const& operator*() const { return m_node->m_value; }
-  pointer const& operator->() const { return &(m_node->m_value); }
-  Self& operator++() { 
+  ListConstIterator() : m_node(nullptr) {}
+  ListConstIterator(ListNode<T>* n) : m_node(n) {}
+  reference operator*() const { return m_node->m_value; }
+  pointer operator->() const { return &(m_node->m_value); }
+  Self& operator++() {
     if (m_node != nullptr) {
       m_node = m_node->m_next;
     }
     return *this;
   }
-  Self operator++(int) { 
-    ListIterator temp{*this}; 
-    ++(*this);
-    return temp;
-  } //~
+
+  Self operator++(int) {
+    if (m_node != nullptr) {
+      m_node = m_node->m_next;
+    }
+    return this;
+  }
+
   bool operator==(const Self& x) const { return (m_node == x.m_node); }
   bool operator!=(const Self& x) const { return (m_node != x.m_node); }
   Self next() const
   {
     if (m_node)
-      return ListIterator(m_node->m_next);
+      return ListConstIterator(m_node->m_next);
     else
-      return ListIterator(nullptr);
+      return ListConstIterator(nullptr);
   }
-*/
+
 private:
   ListNode<T>* m_node; 
 };
+
 
 template <typename T>
 class List
@@ -181,12 +186,20 @@ public:
     }
   }
 
-  ListIterator<T> begin() {
+  ListIterator<T> begin() const {
     return ListIterator<T>{m_first};
   }
 
-  ListIterator<T> end() {
+  ListIterator<T> end() const {
     return ListIterator<T>();
+  }
+
+  ListConstIterator<T> cbegin() const {
+    return ListConstIterator<T>{m_first};
+  }
+
+  ListConstIterator<T> cend() const {
+    return ListConstIterator<T>();
   }
 
 private:
@@ -195,17 +208,22 @@ private:
   ListNode<T>* m_last;
 };
 
-/* here be dragons
+
 template<typename T>
 bool operator==(List<T> const& xs, List<T> const& ys) {
-  auto it1 = xs.begin();
-  auto it2 = ys.begin();
 
-  while(it1 != xs.end()) {
-    if (*it1 != *it2) return false;
+  if (xs.size() != ys.size())
+    return false;
+
+  ListConstIterator<T> it1 = xs.cbegin();
+  ListConstIterator<T> it2 = ys.cbegin();
+
+  for (ListConstIterator<T> i = xs.cbegin(); i != xs.cend(); ++i) {
+    if (*i != *it2) return false;
+    ++it2;
   }
 
   return true;
 }
-*/
+
 #endif // #define BUW_LIST_HPP
