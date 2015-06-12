@@ -70,7 +70,6 @@ TEST_CASE("aufgabe5", "[iterator]") {
 }
 
 TEST_CASE("aufgabe6", "[list_comparison]") {
-
   List<int> l1;
   List<int> l2;
 
@@ -80,14 +79,34 @@ TEST_CASE("aufgabe6", "[list_comparison]") {
   l1.push_back(72);
   l2.push_back(72);
 
-  for (auto i : l1) 
-    std::cout << i << "\n"; 
-
-  for (auto i : l2)
-    std::cout << i << "\n";
-
   REQUIRE(l1 == l2);
 }
+
+TEST_CASE("copy constructor", "[constructor]")  {
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+
+  List<int> list2{list};
+
+  REQUIRE(list == list2);
+}
+
+/*
+TEST_CASE("move constructor", "[constructor]") {
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  List<int> list2(std::move(list));
+  REQUIRE(0 == list.size());
+  REQUIRE(list.empty());
+  REQUIRE(4 == list2.size());
+}
+*/
 
 int main(int argc, char* argv[]) {
   return Catch::Session().run(argc, argv);

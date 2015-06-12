@@ -84,16 +84,16 @@ struct ListConstIterator
   reference operator*() const { return m_node->m_value; }
   pointer operator->() const { return &(m_node->m_value); }
   Self& operator++() {
-    if (m_node != nullptr) {
+    if (m_node != nullptr) 
       m_node = m_node->m_next;
-    }
+    
     return *this;
   }
 
   Self operator++(int) {
-    if (m_node != nullptr) {
+    if (m_node != nullptr) 
       m_node = m_node->m_next;
-    }
+    
     return this;
   }
 
@@ -117,6 +117,13 @@ class List
 {
 public:
   List() : m_size{0}, m_first{nullptr}, m_last{nullptr} {}
+  
+  List(List const& l) : m_size{0}, m_first{nullptr}, m_last{nullptr} {
+    for (auto i : l) {
+      push_back(i);
+    }
+  }
+  
   ~List() { clear(); }
 
   bool empty() const { return m_size == 0; }
@@ -124,16 +131,26 @@ public:
 
   void push_front(T const& v) {
     ListNode<T>* ln = new ListNode<T>{v, nullptr, m_first};
-    if (size() > 0) m_first->m_prev = ln;
-    if (empty()) m_last = ln;
+
+    if (size() > 0) 
+      m_first->m_prev = ln;
+
+    if (empty()) 
+      m_last = ln;
+
     m_first = ln;
     ++m_size;
   };
 
   void push_back(T const& v) {   
     ListNode<T>* ln = new ListNode<T>{v, m_last, nullptr};
-    if (size() > 0) m_last->m_next = ln;
-    if (empty()) m_first = ln;
+
+    if (size() > 0) 
+      m_last->m_next = ln;
+
+    if (empty()) 
+      m_first = ln;
+
     m_last = ln;
     ++m_size;
   }
@@ -142,7 +159,7 @@ public:
     if (!empty()) {
 
       if (size() > 1) {
-        ListNode<T>* newFirst = m_first->m_next; 
+        ListNode<T>* newFirst = m_first->m_next;
         newFirst->m_prev = nullptr;
         delete m_first;
         m_first = newFirst;
@@ -173,11 +190,13 @@ public:
   }
 
   T& front() const {
-    if (!empty()) return m_first->m_value; 
+    if (!empty()) 
+      return m_first->m_value; 
   }
 
   T& back() const {
-    if (!empty()) return m_last->m_value;
+    if (!empty()) 
+      return m_last->m_value;
   }
 
   void clear() {
@@ -191,7 +210,7 @@ public:
   }
 
   ListIterator<T> end() const {
-    return ListIterator<T>();
+    return ListIterator<T>{};
   }
 
   ListConstIterator<T> cbegin() const {
@@ -199,7 +218,7 @@ public:
   }
 
   ListConstIterator<T> cend() const {
-    return ListConstIterator<T>();
+    return ListConstIterator<T>{};
   }
 
 private:
@@ -219,7 +238,8 @@ bool operator==(List<T> const& xs, List<T> const& ys) {
   ListConstIterator<T> it2 = ys.cbegin();
 
   for (ListConstIterator<T> i = xs.cbegin(); i != xs.cend(); ++i) {
-    if (*i != *it2) return false;
+    if (*i != *it2) 
+      return false;
     ++it2;
   }
 
