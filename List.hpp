@@ -118,12 +118,23 @@ class List
 public:
   List() : m_size{0}, m_first{nullptr}, m_last{nullptr} {}
   
+  //copy ctor
   List(List const& l) : m_size{0}, m_first{nullptr}, m_last{nullptr} {
     for (auto i : l) {
       push_back(i);
     }
   }
-  
+
+  //move ctor
+  List(List&& l) : m_size{l.m_size}, m_first{l.m_first}, m_last{l.m_last} {
+    
+    l.m_size = 0;
+    l.m_first = nullptr;
+    l.m_last = nullptr;
+
+    std::cout << "move constructed! \n";
+  }
+
   ~List() { clear(); }
 
   bool empty() const { return m_size == 0; }
@@ -163,7 +174,7 @@ public:
         newFirst->m_prev = nullptr;
         delete m_first;
         m_first = newFirst;
-      } else { 
+      } else { //size==1
         delete m_first;
         m_first = nullptr;       
       }
