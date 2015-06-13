@@ -1,0 +1,1 @@
+- pop_front, pop_back : ohne temporaere variablen

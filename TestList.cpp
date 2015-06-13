@@ -110,6 +110,25 @@ TEST_CASE("move constructor", "[constructor]") {
   REQUIRE(4 == list2.size());
 }
 
+TEST_CASE("aufgabe8_insert", "[insert]") {
+  List<char> list;
+  list.push_front('a');
+  list.push_back('c');
+
+  auto it = list.begin();
+  ++it;
+  for (auto i : list) {
+    std::cout << i << ", ";
+  }
+  std::cout << std::endl;
+
+  list.insert(list.begin(), 'z');
+
+  for (auto i : list) {
+    std::cout << i << ", ";
+  }
+}
+
 int main(int argc, char* argv[]) {
   return Catch::Session().run(argc, argv);
 }

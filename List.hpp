@@ -38,7 +38,7 @@ public:
   reference operator*() const { return m_node->m_value; }
   pointer operator->() const { return &(m_node->m_value); }
   Self& operator++() { 
-    if (m_node != nullptr) {
+    if (nullptr != m_node) {
       m_node = m_node->m_next;
     }
     return *this;
@@ -50,14 +50,20 @@ public:
     return temp;
   }
 
-  bool operator==(const Self& x) const { return (m_node == x.m_node); }
-  bool operator!=(const Self& x) const { return (m_node != x.m_node); }
-  Self next() const
-  {
+  bool operator==(const Self& rhs) const { return (m_node == rhs.m_node); }
+  bool operator!=(const Self& rhs) const { return (m_node != rhs.m_node); }
+
+  Self next() const {
     if (m_node)
       return ListIterator(m_node->m_next);
     else
       return ListIterator(nullptr);
+  }
+
+  //~
+  Self prev() const {
+    if (m_node)
+      return ListIterator(m_node);
   }
 
 private:
@@ -131,8 +137,6 @@ public:
     l.m_size = 0;
     l.m_first = nullptr;
     l.m_last = nullptr;
-
-    std::cout << "move constructed! \n";
   }
 
   ~List() { clear(); }
@@ -200,6 +204,19 @@ public:
     }
   }
 
+  void clear() {
+    while (!empty()) {
+      pop_front();
+    }
+  }
+
+  ListIterator<T> insert(ListIterator<T> pos, T const& val) {
+
+    //ListNode<T>* ln = new ListNode<T>{val, pos->m_prev, pos->m_node};
+
+    return pos;
+  }
+
   T& front() const {
     if (!empty()) 
       return m_first->m_value; 
@@ -208,12 +225,6 @@ public:
   T& back() const {
     if (!empty()) 
       return m_last->m_value;
-  }
-
-  void clear() {
-    while (!empty()) {
-      pop_front();
-    }
   }
 
   ListIterator<T> begin() const {
