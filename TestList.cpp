@@ -2,18 +2,17 @@
 #include "catch.hpp"
 #include "List.hpp"
 
-#include <algorithm>
-#include <iterator>
+#include <vector>
 
 TEST_CASE("aufgabe1", "[list]") {
   List<int> l1;
-  REQUIRE(l1.empty() == true);
+  REQUIRE(true == l1.empty());
 
   l1.push_front(45);
   l1.push_front(0);
 
-  REQUIRE(l1.empty() == false);
-  REQUIRE(l1.size() == 2);
+  REQUIRE(false == l1.empty());
+  REQUIRE(2 == l1.size());
 }
 
 
@@ -24,17 +23,17 @@ TEST_CASE("aufgabe2", "[list]") {
   l1.push_front(82);
   l1.push_front(33);
 
-  REQUIRE(l1.size() == 3);
+  REQUIRE(3 == l1.size());
 
   l1.pop_front();
   l1.pop_back();
 
-  REQUIRE(l1.size() == 1);
-  REQUIRE(l1.front() == 82);
+  REQUIRE(1 == l1.size());
+  REQUIRE(82 == l1.front());
 
   l1.push_back(341); 
 
-  REQUIRE(l1.back() == 341);
+  REQUIRE(341 == l1.back());
 } 
 
 
@@ -110,23 +109,43 @@ TEST_CASE("move constructor", "[constructor]") {
   REQUIRE(4 == list2.size());
 }
 
-TEST_CASE("aufgabe8_insert", "[insert]") {
-  List<char> list;
-  list.push_front('a');
-  list.push_back('c');
+TEST_CASE("aufgabe8", "[insert]") {
+  List<int> list;
+  
+  list.insert(list.begin(), 42);
 
-  auto it = list.begin();
-  ++it;
-  for (auto i : list) {
-    std::cout << i << ", ";
-  }
-  std::cout << std::endl;
+  list.push_front(3);
+  list.insert(list.begin(), 1);
 
-  list.insert(list.begin(), 'z');
+  list.push_back(5);
 
-  for (auto i : list) {
-    std::cout << i << ", ";
-  }
+  list.insert((++list.begin()), 2);
+
+  REQUIRE(list.front() == 1);
+  REQUIRE(2 == ((++list.begin()).node())->m_value);
+}
+
+TEST_CASE("aufgabe9", "[reverse]") {
+  List<int> l1;
+  l1.push_front(11);
+  l1.push_back(99);
+
+  l1.reverse();
+
+  REQUIRE(99 == l1.front());
+  REQUIRE(11 == l1.back());
+
+  List<char> l2;
+  l2.push_back('a');
+  l2.push_back('l');
+  l2.push_back('u');
+  l2.push_back('c');
+  l2.push_back('a');
+  l2.push_back('r');
+  l2.push_back('d');
+
+  std::cout << reverse(l2).front();
+
 }
 
 int main(int argc, char* argv[]) {

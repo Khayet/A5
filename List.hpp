@@ -60,10 +60,8 @@ public:
       return ListIterator(nullptr);
   }
 
-  //~
-  Self prev() const {
-    if (m_node)
-      return ListIterator(m_node);
+  Node* node() const {
+    return m_node;
   }
 
 private:
@@ -212,9 +210,45 @@ public:
 
   ListIterator<T> insert(ListIterator<T> pos, T const& val) {
 
-    //ListNode<T>* ln = new ListNode<T>{val, pos->m_prev, pos->m_node};
+    ListNode<T>* ln = new ListNode<T>{val, nullptr, nullptr};
 
+    if (pos != begin()) {
+      ln->m_prev = pos.node()->m_prev;
+      (pos.node()->m_prev)->m_next = ln;
+    } else {
+      m_first = ln;
+    }
+    
+    if (pos != end()) {
+      ln->m_next = pos.node();
+      pos.node()->m_prev = ln;
+    } else {
+      m_last = ln;
+    }
+
+    ++m_size;
+
+    ++pos;
     return pos;
+  }
+
+  void reverse() {
+    auto it = ListIterator<T>{m_last};
+
+    while (it.node() != m_first) {
+      auto tmp = it.node()->m_next;
+
+      //swap pointers of node:
+      it.node()->m_next = it.node()->m_prev;
+      it.node()->m_prev = tmp;
+
+      ++it; 
+    }
+
+    //swap m_first and m_last:
+    auto temp = m_first;
+    m_first = m_last;
+    m_last = temp;
   }
 
   T& front() const {
@@ -249,7 +283,6 @@ private:
   ListNode<T>* m_last;
 };
 
-
 template<typename T>
 bool operator==(List<T> const& xs, List<T> const& ys) {
 
@@ -266,6 +299,13 @@ bool operator==(List<T> const& xs, List<T> const& ys) {
   }
 
   return true;
+}
+
+
+template<typename T>
+List<T>& reverse(List<T> const& l) {
+  //List<T>* list = new List<T>; 
+
 }
 
 #endif // #define BUW_LIST_HPP
