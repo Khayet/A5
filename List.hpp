@@ -145,11 +145,11 @@ public:
   void push_front(T const& v) {
     ListNode<T>* ln = new ListNode<T>{v, nullptr, m_first};
 
-    if (size() > 0) 
-      m_first->m_prev = ln;
-
-    if (empty()) 
+    if (empty()) { 
       m_last = ln;
+    } else {
+      m_first->m_prev = ln;
+    }
 
     m_first = ln;
     ++m_size;
@@ -178,7 +178,8 @@ public:
         m_first = newFirst;
       } else { //size==1
         delete m_first;
-        m_first = nullptr;       
+        m_first = nullptr;    
+        m_last = nullptr;   
       }
 
       --m_size;
@@ -196,6 +197,7 @@ public:
       } else {
         delete m_last;
         m_last = nullptr;
+        m_first = nullptr;
       }
 
       --m_size;
@@ -277,6 +279,14 @@ public:
     return ListConstIterator<T>{};
   }
 
+  List<T>& operator=(List<T> const& rhs) {
+    clear();
+    
+    for (auto i : rhs) {
+      push_back(i);
+    }
+  }
+
 private:
   std::size_t m_size;
   ListNode<T>* m_first;
@@ -299,6 +309,12 @@ bool operator==(List<T> const& xs, List<T> const& ys) {
   }
 
   return true;
+}
+
+template<typename T>
+bool operator!=(List<T> const& xs, List<T> const& ys) {
+
+  return !(xs == ys);
 }
 
 template<typename T>

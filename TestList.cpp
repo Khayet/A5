@@ -148,6 +148,7 @@ TEST_CASE("aufgabe9", "[reverse]") {
 
   l2.reverse();
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<char>(std::cout, ""));
+  REQUIRE(l3.front() == 'd');
 }
 
 TEST_CASE("aufgabe11", "[copy]") {
