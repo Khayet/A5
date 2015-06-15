@@ -144,9 +144,24 @@ TEST_CASE("aufgabe9", "[reverse]") {
   l2.push_back('r');
   l2.push_back('d');
 
-  std::cout << reverse(l2).front();
+  auto l3 = reverse(l2);
 
+  l2.reverse();
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<char>(std::cout, ""));
 }
+
+TEST_CASE("aufgabe11", "[copy]") {
+  List<int> l1;
+  std::vector<int> v1(4);
+
+  l1.push_back(1);
+  l1.push_back(2);
+  l1.push_back(3);
+  l1.push_back(4);
+
+  std::copy(l1.begin(), l1.end(), v1.begin());
+}
+
 
 int main(int argc, char* argv[]) {
   return Catch::Session().run(argc, argv);

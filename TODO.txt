@@ -1,4 +1,5 @@
 - reverse()
 
+- check insert()
 - pop_front, pop_back : ohne temporaere variablen
 - ListConstIterator

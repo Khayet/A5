@@ -131,7 +131,7 @@ public:
 
   //move ctor
   List(List&& l) : m_size{l.m_size}, m_first{l.m_first}, m_last{l.m_last} {
-    
+
     l.m_size = 0;
     l.m_first = nullptr;
     l.m_last = nullptr;
@@ -227,18 +227,18 @@ public:
     }
 
     ++m_size;
-
     ++pos;
+
     return pos;
   }
 
   void reverse() {
     auto it = ListIterator<T>{m_last};
 
-    while (it.node() != m_first) {
-      auto tmp = it.node()->m_next;
+    while (it != end()) {
 
       //swap pointers of node:
+      auto tmp = it.node()->m_next;   
       it.node()->m_next = it.node()->m_prev;
       it.node()->m_prev = tmp;
 
@@ -301,11 +301,14 @@ bool operator==(List<T> const& xs, List<T> const& ys) {
   return true;
 }
 
-
 template<typename T>
-List<T>& reverse(List<T> const& l) {
-  //List<T>* list = new List<T>; 
+List<T> reverse(List<T> const& l) {
 
+  List<T> list{l};
+
+  list.reverse();
+
+  return list;
 }
 
 #endif // #define BUW_LIST_HPP
